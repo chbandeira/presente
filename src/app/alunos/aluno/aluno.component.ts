@@ -116,6 +116,9 @@ export class AlunoComponent implements OnInit {
               case 'email2':
                 this.alunoErrors.email2 = e.messageString;
                 break;
+                case 'nomeResponsavel':
+                this.alunoErrors.nomeResponsavel = e.messageString;
+                break;  
               default:
                 break;
             }

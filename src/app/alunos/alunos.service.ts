@@ -4,8 +4,9 @@ import { PaginationService } from '../shared/pagination/pagination.service';
 import { Pagination, PaginationResponse } from '../shared/pagination/pagination.model';
 import { Observable } from 'rxjs';
 import { Aluno } from './aluno/aluno.model';
+import { environment } from '../../environments/environment';
 
-const url = '/api/alunos';
+const url = environment.api + '/alunos';
 const params = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json'
@@ -48,7 +49,7 @@ export class AlunosService {
   }
 
   save(aluno: Aluno, fileToUpload: File): Observable<number> {
-    if (aluno.cpf && aluno.cpf.trim() === '') {
+    if (!aluno.cpf || aluno.cpf.trim() === '') {
       aluno.cpf = null;
     }
 

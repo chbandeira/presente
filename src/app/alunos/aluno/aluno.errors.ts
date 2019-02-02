@@ -5,4 +5,5 @@ export class AlunoErrors {
     dataNascimento: string;
     email: string;
     email2: string;
+    nomeResponsavel: string;
 }

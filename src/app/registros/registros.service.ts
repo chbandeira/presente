@@ -2,12 +2,13 @@ import { Registro } from './registro/registro.model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { RegistroEnum } from './registro/registro.enum';
+import { environment } from '../../environments/environment';
 
-const url = '/api/registros';
+const url = environment.api + '/registros';
 const params = {
   headers: new HttpHeaders({
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
   })
 };
 

@@ -5,11 +5,13 @@ import { of, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Pagination, PaginationResponse } from '../shared/pagination/pagination.model';
 import { PaginationService } from '../shared/pagination/pagination.service';
+import { environment } from '../../environments/environment';
 
-const url = '/api/turmas';
+const url = environment.api + '/turmas';
 const params = {
   headers: new HttpHeaders({
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
   })
 };
 

@@ -105,7 +105,8 @@
           <h5>Responsável</h5>
           <div class="form-group">
             <label for="nomeResponsavel">Nome</label>
-            <input type="text" class="form-control" formControlName="nomeResponsavel" maxlength="100" id="nomeResponsavel">
+            <input type="text" class="form-control" [class.is-invalid]="alunoErrors.nomeResponsavel" formControlName="nomeResponsavel" maxlength="100" id="nomeResponsavel">
+            <small class="invalid-feedback">{{alunoErrors.nomeResponsavel}}</small>
           </div>
           <div class="form-group">
             <label for="email">Email </label>
