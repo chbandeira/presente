@@ -1,1 +1,49 @@
 /* You can add global styles to this file, and also import other style files */
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+.btn-save {
+    @extend .btn;
+    @extend .btn-primary;
+}
+
+.btn-clean {
+    @extend .btn;
+    @extend .btn-outline-warning;
+    color: #343a40;
+    border-color: #343a40;
+}
+
+.btn-new {
+    @extend .btn;
+    @extend .btn-success;
+}
+
+.btn-register {
+    @extend .btn;
+    @extend .btn-dark;
+}
+
+.btn-search {
+    @extend .btn;
+    @extend .btn-info;
+}
+
+.btn-edit {
+    @extend .btn;
+    @include button-variant($orange, darken($orange, 7.5%), darken($orange, 10%), lighten($orange,5%), lighten($orange, 10%), darken($orange,30%));
+}
+
+.btn-outline-edit {
+    @extend .btn;
+    @include button-outline-variant($orange, $light, lighten($orange,5%), $orange);
+}
+
+.btn-delete {
+    @extend .btn;
+    @include button-variant($danger, darken($danger, 7.5%), darken($danger, 10%), lighten($danger,5%), lighten($danger, 10%), darken($danger,30%));
+}
+
+.btn-outline-delete {
+    @extend .btn;
+    @include button-outline-variant($danger, $light, lighten($danger,5%), $danger);
+}

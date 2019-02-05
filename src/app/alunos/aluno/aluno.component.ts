@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { AlunosService } from '../alunos.service';
-import { Aluno } from './aluno.model';
+import { Aluno, Telefone } from './aluno.model';
 import { ActivatedRoute } from '@angular/router';
 import { NgbDatePtParserFormatter } from './../../shared/formatter/ngb-date-pt-parser-formatter';
 import { AlunoErrors } from './aluno.errors';
@@ -11,6 +11,8 @@ import { TurmasService } from '../../turmas/turmas.service';
 import { TurmaFormatter } from '../../turmas/turma/turma.formatter';
 import { Masks } from './../../shared/formatter/masks';
 import { FormValidation } from '../../shared/form-validation';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TelefoneModalComponent } from '../../telefone/telefone-modal/telefone-modal.component';
 
 @Component({
   selector: 'app-aluno',
@@ -35,7 +37,8 @@ export class AlunoComponent implements OnInit {
     private turmasService: TurmasService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private dateFormatter: NgbDatePtParserFormatter) { }
+    private dateFormatter: NgbDatePtParserFormatter,
+    private modalService: NgbModal) { }
 
   ngOnInit() {
     this.formValidation = new FormValidation();
@@ -67,8 +70,6 @@ export class AlunoComponent implements OnInit {
       cpf: [this.aluno.cpf],
       email: [this.aluno.email],
       email2: [this.aluno.email2],
-      telefoneFixo: [this.aluno.telefoneFixo],
-      telefoneCelular: [this.aluno.telefoneCelular],
       enviarEmail: [this.aluno.enviarEmail],
       // TODO enviarMensagem
       urlFoto: [null]
@@ -118,7 +119,7 @@ export class AlunoComponent implements OnInit {
                 break;
                 case 'nomeResponsavel':
                 this.alunoErrors.nomeResponsavel = e.messageString;
-                break;  
+                break;
               default:
                 break;
             }
@@ -132,6 +133,7 @@ export class AlunoComponent implements OnInit {
     const aluno: Aluno = this.submitForm.value;
     aluno.dataNascimento = this.dateFormatter.format(this.submitForm.value.dataNascimento);
     aluno.id = this.aluno.id;
+    aluno.telefones = this.aluno.telefones;
     return aluno;
   }
 
@@ -165,4 +167,14 @@ export class AlunoComponent implements OnInit {
       ),
       tap(() => this.searching = false)
     )
+
+  openAdicionarTelefone() {
+    const modalRef = this.modalService.open(TelefoneModalComponent);
+    modalRef.componentInstance.aluno = this.aluno;
+  }
+
+  removeTelefone(telefone: Telefone) {
+    const i = this.aluno.telefones.findIndex(x => x === telefone);
+    this.aluno.telefones.splice(i, 1);
+  }
 }

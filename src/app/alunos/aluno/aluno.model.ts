@@ -1,4 +1,4 @@
-export class Aluno {
+class Aluno {
     id: number;
     nome: string;
     matricula: string;
@@ -13,9 +13,16 @@ export class Aluno {
     cpf: string;
     email: string;
     email2: string;
-    telefoneFixo: string;
-    telefoneCelular: string;
+    telefones: Telefone[];
     enviarEmail: boolean;
     enviarMensagem: boolean;
     anoLetivo: number;
 }
+
+class Telefone {
+    tipo: number;
+    telefone: string;
+    descricao: string;
+}
+
+export { Aluno, Telefone };
