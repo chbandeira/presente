@@ -2,6 +2,8 @@
   <h4>Registro de {{ title }}</h4>
 </div>
 
+<ngx-loading [show]="loading"></ngx-loading>
+
 <form class="mb-5" [formGroup]="submitForm" novalidate>
 
   <div class="col-lg">
@@ -19,6 +21,5 @@
       <button type="reset" (click)="clean()" class="btn-clean mr-2"><i class="fas fa-eraser"></i> Limpar</button>
       <button (click)="registrar()" class="btn btn-primary" [disabled]="loading"><i class="fas fa-check"></i> Registrar {{ title }}</button>
     </div>
-    <app-loading [loading]="loading" [message]="'Processando...'"></app-loading>
   </div>
 </form>

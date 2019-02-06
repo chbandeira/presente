@@ -13,9 +13,9 @@ import { CommonModule } from '@angular/common';
 import { TurnoPipe } from './pipes/turno.pipe';
 import { TextMaskModule } from 'angular2-text-mask';
 import { ModalExclusionComponent } from './modals/modal-exclusion/modal-exclusion.component';
-import { LoadingComponent } from './loading/loading.component';
 import { NgbDatepickerPt } from './formatter/ngb-datapicker-pt';
 import { TipoTelefonePipe } from './pipes/tipo-telefone.pipe';
+import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 
 @NgModule({
   declarations: [
@@ -25,8 +25,7 @@ import { TipoTelefonePipe } from './pipes/tipo-telefone.pipe';
     PaginationComponent,
     SnackbarComponent,
     MessageFormComponent,
-    ModalExclusionComponent,
-    LoadingComponent
+    ModalExclusionComponent
   ],
   imports: [
     CommonModule,
@@ -37,7 +36,10 @@ import { TipoTelefonePipe } from './pipes/tipo-telefone.pipe';
     NgbAlertModule,
     NgbPaginationModule,
     NgbModalModule,
-    TextMaskModule
+    TextMaskModule,
+    NgxLoadingModule.forRoot({
+      backdropBorderRadius: '3px'
+    })
   ],
   exports: [
     TextMaskModule,
@@ -56,7 +58,7 @@ import { TipoTelefonePipe } from './pipes/tipo-telefone.pipe';
     SnackbarComponent,
     MessageFormComponent,
     ModalExclusionComponent,
-    LoadingComponent
+    NgxLoadingModule
   ],
   providers: [
     PaginationService,

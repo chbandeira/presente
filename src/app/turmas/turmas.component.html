@@ -5,6 +5,8 @@
   </div>
 </div>
 
+<ngx-loading [show]="loading"></ngx-loading>
+
 <div class="d-flex justify-content-center">
   <form class="col-md-7" [formGroup]="searchForm">
     <div class="form-group">
@@ -36,7 +38,6 @@
 </div>
 
 <!-- List -->
-<app-loading [loading]="loading" [message]="'Carregando...'"></app-loading>
 <div class="table-responsive" *ngIf="turmasPagResponse | async as paginationResponse">
   <table class="table table-striped">
     <thead>

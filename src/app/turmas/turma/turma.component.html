@@ -2,6 +2,8 @@
   <h4>{{ title() }} Turma</h4>
 </div>
 
+<ngx-loading [show]="loading"></ngx-loading>
+
 <form [formGroup]="submitForm" novalidate>
   <div class="d-flex justify-content-center">
     <div class="col-md-6">

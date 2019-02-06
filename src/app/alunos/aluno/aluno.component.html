@@ -2,6 +2,8 @@
   <h4>{{ title() }} Aluno</h4>
 </div>
 
+<ngx-loading [show]="loading"></ngx-loading>
+
 <form class="mb-5" [formGroup]="submitForm" novalidate>
   <div class="row">
     <div class="col-lg-6">

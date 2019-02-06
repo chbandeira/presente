@@ -4,8 +4,8 @@ import { TurmasService } from '../turmas.service';
 import { Turma } from './turma.model';
 import { ActivatedRoute } from '@angular/router';
 import { FormValidation } from '../../shared/form-validation';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, pipe } from 'rxjs';
+import { takeUntil, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-turma',
@@ -19,6 +19,7 @@ export class TurmaComponent implements OnInit, OnDestroy {
   formValidation = new FormValidation();
   submitForm: FormGroup;
   turma: Turma;
+  loading: boolean;
 
   constructor(
     private turmasService: TurmasService,
@@ -26,17 +27,22 @@ export class TurmaComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.loading = true;
     this.turma = new Turma();
     this.startForm();
     this.turma.id = this.route.snapshot.params['id'];
     if (this.turma.id) {
       this.formValidation.editMode = true;
       this.turmasService.getTurma(this.turma.id)
-        .pipe(takeUntil(this.sub))
+        .pipe(
+          takeUntil(this.sub),
+          finalize(() => this.loading = false))
         .subscribe(t => {
           this.turma = t;
           this.startForm();
         });
+    } else {
+      this.loading = false;
     }
   }
 
@@ -76,9 +82,12 @@ export class TurmaComponent implements OnInit, OnDestroy {
   }
 
   save() {
+    this.loading = true;
     if (this.submitForm.valid) {
       const turma = this.getTurmaFromForm();
-      this.turmasService.save(turma).subscribe(id => {
+      this.turmasService.save(turma).pipe(
+        finalize(() => this.loading = false)
+      ).subscribe(id => {
         if (Number(id)) {
           if (!this.turma.id) {
             this.formValidation.alreadyNew = true;
@@ -89,6 +98,8 @@ export class TurmaComponent implements OnInit, OnDestroy {
       }, err => {
         this.formValidation.invalidate(err.error.msg, err.error.errors, false);
       });
+    } else {
+      this.loading = false;
     }
   }
 

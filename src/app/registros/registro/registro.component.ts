@@ -5,6 +5,7 @@ import { RegistrosService } from '../registros.service';
 import { RegistroEnum } from './registro.enum';
 import { FormValidation } from './../../shared/form-validation';
 import { Registro } from './registro.model';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-registro',
@@ -35,7 +36,7 @@ export class RegistroComponent implements OnInit, DoCheck {
     });
   }
 
-  ngDoCheck()	{
+  ngDoCheck() {
     if (this.tipoRegistro !== this.route.snapshot.params['tipoRegistro']) {
       this.tipoRegistro = this.route.snapshot.params['tipoRegistro'];
       this.startForm();
@@ -54,15 +55,14 @@ export class RegistroComponent implements OnInit, DoCheck {
     const registro = new Registro(
       RegistroEnum[this.route.snapshot.params['tipoRegistro']],
       this.submitForm.value.matricula);
-    this.registrosService.registrar(registro)
-      .subscribe((retorno: Registro) => {
-        this.formValidation.validate(retorno.messageRetorno);
-        this.loading = false;
-        this.startForm();
-      }, err => {
-        this.formValidation.invalidate(err.error.msg);
-        this.loading = false;
-      });
+    this.registrosService.registrar(registro).pipe(
+      finalize(() => this.loading = false)
+    ).subscribe((retorno: Registro) => {
+      this.formValidation.validate(retorno.messageRetorno);
+      this.startForm();
+    }, err => {
+      this.formValidation.invalidate(err.error.msg);
+    });
   }
 
   clean() {

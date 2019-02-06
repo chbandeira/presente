@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { AlunosService } from '../alunos.service';
 import { Aluno, Telefone } from './aluno.model';
 import { ActivatedRoute } from '@angular/router';
 import { NgbDatePtParserFormatter } from './../../shared/formatter/ngb-date-pt-parser-formatter';
 import { AlunoErrors } from './aluno.errors';
-import { Observable, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, tap, switchMap, catchError } from 'rxjs/operators';
+import { Observable, of, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, finalize } from 'rxjs/operators';
 import { TurmasService } from '../../turmas/turmas.service';
 import { TurmaFormatter } from '../../turmas/turma/turma.formatter';
 import { Masks } from './../../shared/formatter/masks';
@@ -19,7 +19,7 @@ import { TelefoneModalComponent } from '../../telefone/telefone-modal/telefone-m
   templateUrl: './aluno.component.html',
   styleUrls: ['./aluno.component.scss']
 })
-export class AlunoComponent implements OnInit {
+export class AlunoComponent implements OnInit, OnDestroy {
 
   formValidation = new FormValidation();
   submitForm: FormGroup;
@@ -32,6 +32,9 @@ export class AlunoComponent implements OnInit {
   searching = false;
   searchFailed = false;
 
+  $aluno: Subscription;
+  loading: boolean;
+
   constructor(
     private alunosService: AlunosService,
     private turmasService: TurmasService,
@@ -41,6 +44,7 @@ export class AlunoComponent implements OnInit {
     private modalService: NgbModal) { }
 
   ngOnInit() {
+    this.loading = true;
     this.formValidation = new FormValidation();
     this.aluno = new Aluno();
     this.alunoErrors = new AlunoErrors();
@@ -49,10 +53,20 @@ export class AlunoComponent implements OnInit {
     if (this.aluno.id) {
       this.formValidation.editMode = true;
       this.formValidation.alreadyNew = false;
-      this.alunosService.getAluno(this.aluno.id).subscribe(a => {
+      this.$aluno = this.alunosService.getAluno(this.aluno.id).pipe(
+        finalize(() => this.loading = false)
+      ).subscribe(a => {
         this.aluno = a;
         this.startForm();
       });
+    } else {
+      this.loading = false;
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.$aluno) {
+      this.$aluno.unsubscribe();
     }
   }
 
@@ -82,10 +96,13 @@ export class AlunoComponent implements OnInit {
   }
 
   save() {
+    this.loading = true;
     this.alunoErrors = new AlunoErrors();
     if (this.submitForm.valid) {
       const aluno = this.getAlunoFromForm();
-      this.alunosService.save(aluno, this.fileToUpload).subscribe(id => {
+      this.alunosService.save(aluno, this.fileToUpload).pipe(
+        finalize(() => this.loading = false)
+      ).subscribe(id => {
         if (Number(id)) {
           this.submitForm.value.dataNascimento = this.dateFormatter.parse(this.aluno.dataNascimento);
           if (!this.aluno.id) {
@@ -117,7 +134,7 @@ export class AlunoComponent implements OnInit {
               case 'email2':
                 this.alunoErrors.email2 = e.messageString;
                 break;
-                case 'nomeResponsavel':
+              case 'nomeResponsavel':
                 this.alunoErrors.nomeResponsavel = e.messageString;
                 break;
               default:
@@ -126,6 +143,8 @@ export class AlunoComponent implements OnInit {
           });
         }
       });
+    } else {
+      this.loading = false;
     }
   }
 
