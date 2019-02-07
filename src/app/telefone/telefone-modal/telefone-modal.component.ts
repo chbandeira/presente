@@ -29,6 +29,9 @@ export class TelefoneModalComponent implements OnInit {
   }
 
   addTelefone() {
+    if (!this.aluno.telefones) {
+      this.aluno.telefones = [];
+    }
     const telefone = new Telefone();
     telefone.tipo = this.telefoneForm.value.telefoneTipo;
     telefone.telefone = this.telefoneForm.value.telefone;
@@ -50,5 +53,9 @@ export class TelefoneModalComponent implements OnInit {
     }
     this.aluno.telefones.push(telefone);
     this.activeModal.close();
+  }
+
+  onChangeTipoTelefoneSelect() {
+    this.telefoneForm.controls['telefone'].setValue('');
   }
 }

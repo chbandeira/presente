@@ -50,7 +50,7 @@
               </label>
               <div [class.collapse]="true" id="collapsePesquisaTurma">
                 <input type="text" class="form-control" [ngbTypeahead]="searchTurma" placeholder="Pesquisar Turma, Série ou Sala"
-                  [resultFormatter]="turmaFormatter.formatterTurmaResult" [inputFormatter]="turmaFormatter.formatterTurmaInput">
+                  [resultFormatter]="turmaFormatter.formatterTurmaResult" [inputFormatter]="turmaFormatter.formatterTurmaInput" maxlength="5">
                 <small class="form-text text-muted" *ngIf="searching">
                   <i class="fas fa-hourglass-half"></i> Pesquisando...
                 </small>

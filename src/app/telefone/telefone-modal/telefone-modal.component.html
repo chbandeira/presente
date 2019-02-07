@@ -9,7 +9,7 @@
     <div class="form-row">
       <div class="form-group col-sm-4">
         <label for="tipoTelefoneSelect">Tipo</label>
-        <select class="form-control" formControlName="telefoneTipo" id="tipoTelefoneSelect">
+        <select class="form-control" formControlName="telefoneTipo" id="tipoTelefoneSelect" (change)="onChangeTipoTelefoneSelect()">
           <option value="0">Celular</option>
           <option value="1">Fixo</option>
         </select>
@@ -17,12 +17,17 @@
       </div>
       <div class="form-group col-sm-4">
         <label for="telefone">Telefone</label>
-        <input type="text" class="form-control" formControlName="telefone" id="telefone" [textMask]="{mask: masks.telefoneCelular}">
+        <ng-container *ngIf="telefoneForm.value.telefoneTipo === '0'; else elseTelefoneTipo1">
+            <input type="text" class="form-control" formControlName="telefone" id="telefone" [textMask]="{mask: masks.telefoneCelular}">  
+        </ng-container>
+        <ng-template #elseTelefoneTipo1>
+            <input type="text" class="form-control" formControlName="telefone" id="telefone" [textMask]="{mask: masks.telefoneFixo}">
+        </ng-template>
         <small class="form-text text-muted">Campo obrigatório</small>
       </div>
       <div class="form-group col-sm-4">
         <label for="descricaoTelefone">Descrição</label>
-        <input type="text" class="form-control" formControlName="telefoneDescricao" id="descricaoTelefone">
+        <input type="text" class="form-control" formControlName="telefoneDescricao" id="descricaoTelefone" maxlength="20">
       </div>
     </div>
   </form>
