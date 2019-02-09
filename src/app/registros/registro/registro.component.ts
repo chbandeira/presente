@@ -61,7 +61,7 @@ export class RegistroComponent implements OnInit, DoCheck {
       this.formValidation.validate(retorno.messageRetorno);
       this.startForm();
     }, err => {
-      this.formValidation.invalidate(err.error.msg);
+      this.formValidation.invalidate(err.error.message);
     });
   }
 

@@ -12,7 +12,7 @@ export class ApplicationErrorHandler extends ErrorHandler {
   handleError(errorResponse: HttpErrorResponse | any) {
 
     if (errorResponse instanceof HttpErrorResponse) {
-      const message = errorResponse.error.msg;
+      const message = errorResponse.error.message;
       this.zone.run(() => {
         const codStatus = errorResponse.status;
         switch (errorResponse.status) {

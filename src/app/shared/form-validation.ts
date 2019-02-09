@@ -20,20 +20,13 @@ export class FormValidation {
         this.typeMessage = 'success';
     }
 
-    invalidate(message: string, errors?: [], fieldName = true) {
+    invalidate(error: any) {
         this.valid = false;
         this.showMessage = true;
-        this.message = message;
-        if (errors && errors.length > 0) {
-            this.message = `${this.message}: `;
-            for (let i = 0; i < errors.length; i++) {
-                if (!fieldName) {
-                    this.message += `${errors[i]['messageString']}, `;
-                } else {
-                    this.message += `${errors[i]['fieldName']}, `;
-                }
-            }
-            this.message = this.message.substr(0, this.message.length - 2);
+        if (error.status === 422) {
+            this.message = `${error.error}: Verifique os campos destacados!`;
+        } else {
+            this.message = error; 
         }
         if (!this.message || this.message === '') {
             this.message = 'Erro inesperado!';

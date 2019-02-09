@@ -112,8 +112,8 @@ export class AlunoComponent implements OnInit, OnDestroy {
         }
         this.formValidation.validate('Aluno salvo com sucesso!');
       }, err => {
-        this.formValidation.invalidate(err.error.msg, err.error.errors);
-        if (err.error.errors) {
+        this.formValidation.invalidate(err.error);
+        if (err.error.status === 422) {
           err.error.errors.forEach(e => {
             switch (e.fieldName) {
               case 'nome':
