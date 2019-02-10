@@ -7,8 +7,7 @@ import { environment } from '../../environments/environment';
 const url = environment.api + '/registros';
 const params = {
   headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*'
+    'Content-Type': 'application/json'
   })
 };
 

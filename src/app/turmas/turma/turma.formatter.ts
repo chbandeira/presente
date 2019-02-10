@@ -7,10 +7,11 @@ export class TurmaFormatter {
     constructor(private submitForm: FormGroup) { }
 
     formatterTurmaResult = (t: Turma) => {
+        const turno = new TurnoPipe().transform(t.turno);
         let text = `Turma: ${t.descricao ? t.descricao : '-'}`;
         text = `${text} | Série: ${t.serie ? t.serie : '-'}`;
         text = `${text} | Sala: ${t.sala ? t.sala : '-'}`;
-        text = `${text} | Turno: ${t.turno ? new TurnoPipe().transform(t.turno) : '-'}`;
+        text = `${text} | Turno: ${turno === null ? '-' : turno}`;
         return text;
     }
 

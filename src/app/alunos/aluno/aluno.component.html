@@ -20,16 +20,17 @@
           <div class="form-row">
             <div class="form-group col-sm-6">
               <label for="matricula">Matrícula</label>
-              <input type="text" class="form-control" [class.is-invalid]="alunoErrors.matricula" formControlName="matricula"
-                maxlength="20" id="matricula">
+              <input type="text" class="form-control" [class.is-invalid]="alunoErrors.matricula"
+                formControlName="matricula" maxlength="20" id="matricula">
               <small class="invalid-feedback">{{alunoErrors.matricula}}</small>
               <small class="form-text text-muted">Campo obrigatório</small>
             </div>
             <div class="form-group col-sm-6">
               <label for="dataNascimento">Data de Nascimento</label>
               <div class="input-group">
-                <input ngbDatepicker #d="ngbDatepicker" class="form-control" [class.is-invalid]="alunoErrors.dataNascimento"
-                  formControlName="dataNascimento" id="dataNascimento" placeholder="dd/mm/aaaa">
+                <input ngbDatepicker #d="ngbDatepicker" class="form-control"
+                  [class.is-invalid]="alunoErrors.dataNascimento" formControlName="dataNascimento" id="dataNascimento"
+                  placeholder="dd/mm/aaaa">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                     <i class="far fa-calendar-alt"></i>
@@ -41,28 +42,16 @@
           </div>
 
           <div class="form-row">
-            <div class="form-group col-sm-12">
-              <label for="pesquisaTurma">
-                <a class="btn btn-sm btn-outline-secondary" data-toggle="collapse" href="#collapsePesquisaTurma" role="button"
-                  aria-expanded="false" aria-controls="collapsePesquisaTurma">
-                  <i class="fas fa-search"></i> Pesquisar turma
-                </a>
-              </label>
-              <div [class.collapse]="true" id="collapsePesquisaTurma">
-                <input type="text" class="form-control" [ngbTypeahead]="searchTurma" placeholder="Pesquisar Turma, Série ou Sala"
-                  [resultFormatter]="turmaFormatter.formatterTurmaResult" [inputFormatter]="turmaFormatter.formatterTurmaInput" maxlength="5">
-                <small class="form-text text-muted" *ngIf="searching">
-                  <i class="fas fa-hourglass-half"></i> Pesquisando...
-                </small>
-                <small class="invalid-feedback" *ngIf="searchFailed">Sugestões não puderam ser carregadas.</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-row">
             <div class="form-group col-sm-3">
               <label for="turma">Turma</label>
-              <input type="text" class="form-control" formControlName="turma" maxlength="5" id="turma">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-secondary" (click)="openSearchTurma()">
+                    <i class="fas fa-search"></i>
+                  </button>
+                </div>
+                <input type="text" class="form-control" formControlName="turma" maxlength="5" id="turma">
+              </div>
             </div>
             <div class="form-group col-sm-2">
               <label for="serie">Série</label>
@@ -91,13 +80,14 @@
           <div class="form-group">
             <div>Bolsista?</div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" [checked]="aluno.alunoBolsista === true" formControlName="alunoBolsista"
-                id="alunoBolsistaSim" value="true">
+              <input class="form-check-input" type="radio" [checked]="aluno.alunoBolsista === true"
+                formControlName="alunoBolsista" id="alunoBolsistaSim" value="true">
               <label class="form-check-label" for="alunoBolsistaSim">Sim</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" [checked]="aluno.alunoBolsista === false || !formValidation.editMode"
-                formControlName="alunoBolsista" id="alunoBolsistaNao" value="false">
+              <input class="form-check-input" type="radio"
+                [checked]="aluno.alunoBolsista === false || !formValidation.editMode" formControlName="alunoBolsista"
+                id="alunoBolsistaNao" value="false">
               <label class="form-check-label" for="alunoBolsistaNao">Não</label>
             </div>
           </div>
@@ -111,15 +101,15 @@
           <h5>Responsável</h5>
           <div class="form-group">
             <label for="nomeResponsavel">Nome</label>
-            <input type="text" class="form-control" [class.is-invalid]="alunoErrors.nomeResponsavel" formControlName="nomeResponsavel"
-              maxlength="200" id="nomeResponsavel">
+            <input type="text" class="form-control" [class.is-invalid]="alunoErrors.nomeResponsavel"
+              formControlName="nomeResponsavel" maxlength="200" id="nomeResponsavel">
             <small class="invalid-feedback">{{alunoErrors.nomeResponsavel}}</small>
           </div>
           <div class="form-row">
             <div class="form-group col-sm-4">
               <label for="cpf">CPF</label>
-              <input type="text" class="form-control" [class.is-invalid]="alunoErrors.cpf" formControlName="cpf" id="cpf"
-                [textMask]="{mask: masks.CPF}">
+              <input type="text" class="form-control" [class.is-invalid]="alunoErrors.cpf" formControlName="cpf"
+                id="cpf" [textMask]="{mask: masks.CPF}">
               <small class="invalid-feedback">{{alunoErrors.cpf}}</small>
             </div>
           </div>
@@ -131,8 +121,8 @@
           </div>
           <div class="form-group">
             <label for="email2">
-              <a class="btn btn-sm btn-outline-secondary" data-toggle="collapse" href="#collapseEmailAdicional" role="button"
-                aria-expanded="false" aria-controls="collapseEmailAdicional">
+              <a class="btn btn-sm btn-outline-secondary" data-toggle="collapse" href="#collapseEmailAdicional"
+                role="button" aria-expanded="false" aria-controls="collapseEmailAdicional">
                 <i class="fas fa-plus"></i> Email adicional
               </a>
             </label>
@@ -145,43 +135,46 @@
           <div class="form-group">
             <div>Email de registro?</div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" [checked]="aluno.enviarEmail === true" formControlName="enviarEmail"
-                id="enviarEmailSim" value="true">
+              <input class="form-check-input" type="radio" [checked]="aluno.enviarEmail === true"
+                formControlName="enviarEmail" id="enviarEmailSim" value="true">
               <label class="form-check-label" for="enviarEmailSim">Sim</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" [checked]="aluno.enviarEmail === false || !formValidation.editMode"
-                formControlName="enviarEmail" id="enviarEmailNao" value="false">
+              <input class="form-check-input" type="radio"
+                [checked]="aluno.enviarEmail === false || !formValidation.editMode" formControlName="enviarEmail"
+                id="enviarEmailNao" value="false">
               <label class="form-check-label" for="enviarEmailNao">Não</label>
             </div>
             <small class="form-text text-muted">Enviar email no momento do registro do aluno</small>
           </div>
           <div class="form-group">
-            <button type="button" (click)="openAdicionarTelefone()" class="btn btn-sm btn-outline-secondary"><i class="fas fa-plus"></i> Adicionar
+            <button type="button" (click)="openAddTelefone()" class="btn btn-sm btn-outline-secondary"><i
+                class="fas fa-plus"></i> Adicionar
               telefone</button>
           </div>
           <div class="form-group">
             <table class="table table-striped">
               <thead>
-              <tr>
-                <th scope="col">Tipo</th>
-                <th scope="col">Telefone</th>
-                <th scope="col">Descrição</th>
-                <th scope="col">Opções</th>
-              </tr>
+                <tr>
+                  <th scope="col">Tipo</th>
+                  <th scope="col">Telefone</th>
+                  <th scope="col">Descrição</th>
+                  <th scope="col">Opções</th>
+                </tr>
               </thead>
               <tbody>
-              <tr *ngFor="let tel of aluno.telefones">
-                <td>{{ tel.tipo | tipoTelefone }}</td>
-                <td>{{ tel.telefone }}</td>
-                <td>{{ tel.descricao }}</td>
-                <td>
-                   <button class="btn-sm btn-outline-delete" (click)="removeTelefone(tel)"> <i class="fas fa-trash-alt"></i></button>
-                </td>
-              </tr>
+                <tr *ngFor="let tel of aluno.telefones">
+                  <td>{{ tel.tipo | tipoTelefone }}</td>
+                  <td>{{ tel.telefone }}</td>
+                  <td>{{ tel.descricao }}</td>
+                  <td>
+                    <button class="btn-sm btn-outline-delete" (click)="removeTelefone(tel)"> <i
+                        class="fas fa-trash-alt"></i></button>
+                  </td>
+                </tr>
               </tbody>
             </table>
-          </div>          
+          </div>
         </div>
       </div>
     </div>
@@ -194,7 +187,8 @@
 
     <ng-container *ngIf="formValidation.editMode; then edit; else new"></ng-container>
     <ng-template #edit>
-      <a *ngIf="!formValidation.alreadyNew" class="btn-new mr-2" [routerLink]="[ '/alunos/cadastro' ]"><i class="fas fa-plus"></i>
+      <a *ngIf="!formValidation.alreadyNew" class="btn-new mr-2" [routerLink]="[ '/alunos/cadastro' ]"><i
+          class="fas fa-plus"></i>
         Novo Aluno</a>
       <button *ngIf="formValidation.alreadyNew" (click)="newAluno()" class="btn-new mr-2"><i class="fas fa-plus"></i>
         Novo Aluno</button>

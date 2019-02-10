@@ -3,10 +3,10 @@ import { SharedModule } from '../shared/shared.module';
 import { AlunoComponent } from './aluno/aluno.component';
 import { AlunosComponent } from './alunos.component';
 import { AlunosService } from './alunos.service';
-import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { AlunosRoutingModule } from './alunos-routing.module';
 import { CommonModule } from '@angular/common';
 import { TelefoneModule } from '../telefone/telefone.module';
+import { TurmasModule } from '../turmas/turmas.module';
 
 @NgModule({
   declarations: [
@@ -17,8 +17,8 @@ import { TelefoneModule } from '../telefone/telefone.module';
     CommonModule,
     SharedModule,
     AlunosRoutingModule,
-    NgbTypeaheadModule,
-    TelefoneModule
+    TelefoneModule,
+    TurmasModule
   ],
   providers: [AlunosService]
 })

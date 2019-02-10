@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <h4 class="modal-title">Pesquisar Turma</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <input type="text" class="form-control" [ngbTypeahead]="searchTurma" placeholder="Informe Turma, Série ou Sala"
+    [resultFormatter]="turmaFormatter.formatterTurmaResult" [inputFormatter]="turmaFormatter.formatterTurmaInput"
+    maxlength="5" (selectItem)="activeModal.close()">
+  <small class="form-text text-muted" *ngIf="searching">
+    <i class="fas fa-hourglass-half"></i> Pesquisando...
+  </small>
+  <small class="invalid-feedback" *ngIf="searchFailed">Sugestões não puderam ser carregadas.</small>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">Fechar</button>
+</div>

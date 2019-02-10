@@ -13,6 +13,7 @@ export class TurnoPipe implements PipeTransform {
     } else if (value === 2) {
       return 'Noturno';
     }
+    return null;
   }
 
 }

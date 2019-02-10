@@ -10,8 +10,7 @@ import { environment } from '../../environments/environment';
 const url = environment.api + '/turmas';
 const params = {
   headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*'
+    'Content-Type': 'application/json'
   })
 };
 
@@ -22,13 +21,13 @@ export class TurmasService {
 
   constructor(private http: HttpClient, private paginationService: PaginationService) { }
 
-  searchByName(term: string) {
+  searchByTerm(term: string) {
     if (term === '') {
       return of([]);
     }
 
-    const httpParams = new HttpParams().set('descricao', term);
-    return this.http.get<any>(url, {
+    const httpParams = new HttpParams().set('term', term);
+    return this.http.get<any>(url + '/term', {
       params: httpParams
     }).pipe(
       map(x => x['content'])

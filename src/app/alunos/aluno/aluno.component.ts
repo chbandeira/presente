@@ -5,14 +5,14 @@ import { Aluno, Telefone } from './aluno.model';
 import { ActivatedRoute } from '@angular/router';
 import { NgbDatePtParserFormatter } from './../../shared/formatter/ngb-date-pt-parser-formatter';
 import { AlunoErrors } from './aluno.errors';
-import { Observable, of, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, finalize } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { TurmasService } from '../../turmas/turmas.service';
-import { TurmaFormatter } from '../../turmas/turma/turma.formatter';
 import { Masks } from './../../shared/formatter/masks';
 import { FormValidation } from '../../shared/form-validation';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TelefoneModalComponent } from '../../telefone/telefone-modal/telefone-modal.component';
+import { TurmaSearchModalComponent } from '../../turmas/turma-search-modal/turma-search-modal.component';
 
 @Component({
   selector: 'app-aluno',
@@ -27,10 +27,6 @@ export class AlunoComponent implements OnInit, OnDestroy {
   aluno: Aluno;
   alunoErrors: AlunoErrors;
   masks = Masks;
-
-  turmaFormatter: TurmaFormatter;
-  searching = false;
-  searchFailed = false;
 
   $aluno: Subscription;
   loading: boolean;
@@ -88,7 +84,6 @@ export class AlunoComponent implements OnInit, OnDestroy {
       // TODO enviarMensagem
       urlFoto: [null]
     });
-    this.turmaFormatter = new TurmaFormatter(this.submitForm);
   }
 
   title(): string {
@@ -171,23 +166,7 @@ export class AlunoComponent implements OnInit, OnDestroy {
     this.formValidation.reset();
   }
 
-  searchTurma = (text: Observable<string>) =>
-    text.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      tap(() => this.searching = true),
-      switchMap(term =>
-        this.turmasService.searchByName(term).pipe(
-          tap(() => this.searchFailed = false),
-          catchError(() => {
-            this.searchFailed = true;
-            return of([]);
-          }))
-      ),
-      tap(() => this.searching = false)
-    )
-
-  openAdicionarTelefone() {
+  openAddTelefone() {
     const modalRef = this.modalService.open(TelefoneModalComponent);
     modalRef.componentInstance.aluno = this.aluno;
   }
@@ -195,5 +174,10 @@ export class AlunoComponent implements OnInit, OnDestroy {
   removeTelefone(telefone: Telefone) {
     const i = this.aluno.telefones.findIndex(x => x === telefone);
     this.aluno.telefones.splice(i, 1);
+  }
+
+  openSearchTurma() {
+    const modalRef = this.modalService.open(TurmaSearchModalComponent);
+    modalRef.componentInstance.submitForm = this.submitForm;
   }
 }
