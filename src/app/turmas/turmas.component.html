@@ -41,38 +41,40 @@
 </div>
 
 <!-- List -->
-<div class="table-responsive" *ngIf="turmasPagResponse | async as paginationResponse">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Turma</th>
-        <th>Série</th>
-        <th>Sala</th>
-        <th>Turno</th>
-        <th>Opções</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let turma of paginationResponse.content">
-        <td>{{ turma.descricao }}</td>
-        <td>{{ turma.serie }}</td>
-        <td>{{ turma.sala }}</td>
-        <td>{{ turma.turno | turno }}</td>
-        <td>
-          <div class="btn-group btn-group-toggle">
-            <label>
-              <a [routerLink]="[ 'cadastro', turma.id ]" class="btn btn-sm btn-outline-edit mr-1"> <i class="fas fa-edit"></i></a>
-            </label>
-            <label>
-              <button data-toggle="modal" [attr.data-target]="'#removeModal'+turma.id" class="btn btn-sm btn-outline-delete"> <i class="fas fa-trash-alt"></i></button>
-            </label>
-          </div>
-        </td>
-        
-        <app-modal-exclusion [id]="turma.id" (eventModal)="onDelete($event)"></app-modal-exclusion>
-      </tr>
-    </tbody>
-  </table>
+<div *ngIf="turmasPagResponse | async as paginationResponse">
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Turma</th>
+          <th>Série</th>
+          <th>Sala</th>
+          <th>Turno</th>
+          <th>Opções</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let turma of paginationResponse.content">
+          <td>{{ turma.descricao }}</td>
+          <td>{{ turma.serie }}</td>
+          <td>{{ turma.sala }}</td>
+          <td>{{ turma.turno | turno }}</td>
+          <td>
+            <div class="btn-group btn-group-toggle">
+              <label>
+                <a [routerLink]="[ 'cadastro', turma.id ]" class="btn btn-sm btn-outline-edit mr-1"> <i class="fas fa-edit"></i></a>
+              </label>
+              <label>
+                <button data-toggle="modal" [attr.data-target]="'#removeModal'+turma.id" class="btn btn-sm btn-outline-delete"> <i class="fas fa-trash-alt"></i></button>
+              </label>
+            </div>
+          </td>
+          
+          <app-modal-exclusion [id]="turma.id" (eventModal)="onDelete($event)"></app-modal-exclusion>
+        </tr>
+      </tbody>
+    </table>
 
+  </div>
   <app-pagination [paginationResponse]="paginationResponse" (eventPage)="onPage($event)"></app-pagination>
 </div>

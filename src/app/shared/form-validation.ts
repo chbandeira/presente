@@ -24,7 +24,7 @@ export class FormValidation {
         this.valid = false;
         this.showMessage = true;
         if (error.status === 422) {
-            this.message = `${error.error}: Verifique os campos destacados!`;
+            this.message = error.error;
         } else {
             this.message = error; 
         }

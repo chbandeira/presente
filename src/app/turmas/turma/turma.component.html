@@ -40,9 +40,9 @@
 
     <ng-container *ngIf="formValidation.editMode; then edit; else new"></ng-container>
     <ng-template #edit>
-      <a *ngIf="!formValidation.alreadyNew" class="btn-save mr-2" [routerLink]="[ '/turmas/cadastro' ]"><i class="fas fa-plus"></i>
+      <a *ngIf="!formValidation.alreadyNew" class="btn-new mr-2" [routerLink]="[ '/turmas/cadastro' ]"><i class="fas fa-plus"></i>
         Nova Turma</a>
-      <button *ngIf="formValidation.alreadyNew" (click)="newTurma()" class="btn-save mr-2"><i class="fas fa-plus"></i>
+      <button *ngIf="formValidation.alreadyNew" (click)="newTurma()" class="btn-new mr-2"><i class="fas fa-plus"></i>
         Nova Turma</button>
     </ng-template>
     <ng-template #new>
