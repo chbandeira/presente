@@ -27,7 +27,7 @@ export class TurmasService {
     }
 
     const httpParams = new HttpParams().set('term', term);
-    return this.http.get<any>(url + '/term', {
+    return this.http.get<any>(url + '/search', {
       params: httpParams
     }).pipe(
       map(x => x['content'])

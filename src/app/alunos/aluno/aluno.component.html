@@ -9,7 +9,9 @@
     <div class="col-lg-6">
       <div class="d-flex justify-content-center">
         <div class="col-md">
+
           <h5>Aluno</h5>
+
           <div class="form-group">
             <label for="nomeAluno">Nome</label>
             <input type="text" class="form-control" [class.is-invalid]="alunoErrors.nome" formControlName="nome"
@@ -32,7 +34,7 @@
                   [class.is-invalid]="alunoErrors.dataNascimento" formControlName="dataNascimento" id="dataNascimento"
                   placeholder="dd/mm/aaaa">
                 <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button" placement="bottom" ngbTooltip="Selecionar">
                     <i class="far fa-calendar-alt"></i>
                   </button>
                 </div>
@@ -46,7 +48,7 @@
               <label for="turma">Turma</label>
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <button class="btn btn-outline-secondary" (click)="openSearchTurma()">
+                  <button class="btn btn-outline-secondary" placement="bottom" ngbTooltip="Pesquisar" (click)="openSearchTurma()">
                     <i class="fas fa-search"></i>
                   </button>
                 </div>
@@ -95,15 +97,32 @@
       </div>
     </div>
 
+    <!-- Responsável -->
+
     <div class="col-lg-6">
       <div class="d-flex justify-content-center">
         <div class="col-md">
+
           <h5>Responsável</h5>
+          <small class="form-text text-muted">Edição de Responsável já existente apenas em Cadastro de Responsável.</small>
+
           <div class="form-group">
             <label for="nomeResponsavel">Nome</label>
-            <input type="text" class="form-control" [class.is-invalid]="alunoErrors.nomeResponsavel"
-              formControlName="nomeResponsavel" maxlength="200" id="nomeResponsavel">
-            <small class="invalid-feedback">{{alunoErrors.nomeResponsavel}}</small>
+            <div class="input-group">
+              <input type="text" class="form-control" [class.is-invalid]="alunoErrors.nomeResponsavel"
+                formControlName="nomeResponsavel" maxlength="200" id="nomeResponsavel">
+              <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary" placement="bottom" ngbTooltip="Limpar" (click)="cleanResponsavel()">
+                  <i class="fas fa-eraser"></i>
+                </button>
+              </div>
+              <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary" placement="bottom" ngbTooltip="Pesquisar" (click)="openSearchResponsavel()">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+              <small class="invalid-feedback">{{alunoErrors.nomeResponsavel}}</small>
+            </div>
           </div>
           <div class="form-row">
             <div class="form-group col-sm-4">
@@ -122,7 +141,7 @@
           <div class="form-group">
             <label for="email2">
               <a class="btn btn-sm btn-outline-secondary" data-toggle="collapse" href="#collapseEmailAdicional"
-                role="button" aria-expanded="false" aria-controls="collapseEmailAdicional">
+                role="button" aria-expanded="false" aria-controls="collapseEmailAdicional" [class.disabled]="submitForm.value.disabledResponsavel">
                 <i class="fas fa-plus"></i> Email adicional
               </a>
             </label>
@@ -148,7 +167,7 @@
             <small class="form-text text-muted">Enviar email no momento do registro do aluno</small>
           </div>
           <div class="form-group">
-            <button type="button" (click)="openAddTelefone()" class="btn btn-sm btn-outline-secondary"><i
+            <button type="button" (click)="openAddTelefone()" class="btn btn-sm btn-outline-secondary" [disabled]="submitForm.value.disabledResponsavel"><i
                 class="fas fa-plus"></i> Adicionar
               telefone</button>
           </div>
@@ -163,13 +182,14 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let tel of aluno.telefones">
+                <tr *ngFor="let tel of submitForm.value.telefones">
                   <td>{{ tel.tipo | tipoTelefone }}</td>
                   <td>{{ tel.telefone }}</td>
                   <td>{{ tel.descricao }}</td>
                   <td>
-                    <button class="btn-sm btn-outline-delete" (click)="removeTelefone(tel)"> <i
-                        class="fas fa-trash-alt"></i></button>
+                    <button class="btn-sm btn-outline-delete" (click)="removeTelefone(tel)" [disabled]="submitForm.value.disabledResponsavel"> 
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
                   </td>
                 </tr>
               </tbody>

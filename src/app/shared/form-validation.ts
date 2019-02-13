@@ -20,16 +20,14 @@ export class FormValidation {
         this.typeMessage = 'success';
     }
 
-    invalidate(error: any) {
+    invalidate(message: string, error?: any) {
         this.valid = false;
         this.showMessage = true;
-        if (error.status === 422) {
+        this.message = message;
+        if (error && error.status) {
             this.message = error.error;
-        } else {
-            this.message = error; 
-        }
-        if (!this.message || this.message === '') {
-            this.message = 'Erro inesperado!';
+        } else if (error && error.status === 500) {
+            this.message == 'Erro inesperado'
         }
         this.typeMessage = 'danger';
     }

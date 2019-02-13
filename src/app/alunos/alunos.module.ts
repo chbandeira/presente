@@ -5,8 +5,9 @@ import { AlunosComponent } from './alunos.component';
 import { AlunosService } from './alunos.service';
 import { AlunosRoutingModule } from './alunos-routing.module';
 import { CommonModule } from '@angular/common';
-import { TelefoneModule } from '../telefone/telefone.module';
 import { TurmasModule } from '../turmas/turmas.module';
+import { TelefonesModule } from '../telefones/telefones.module';
+import { ResponsaveisModule } from '../responsaveis/responsaveis.module';
 
 @NgModule({
   declarations: [
@@ -17,8 +18,9 @@ import { TurmasModule } from '../turmas/turmas.module';
     CommonModule,
     SharedModule,
     AlunosRoutingModule,
-    TelefoneModule,
-    TurmasModule
+    TelefonesModule,
+    TurmasModule,
+    ResponsaveisModule
   ],
   providers: [AlunosService]
 })

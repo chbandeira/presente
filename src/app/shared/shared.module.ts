@@ -7,7 +7,7 @@ import { SimNaoPipe } from './pipes/sim-nao.pipe';
 import { MessageFormComponent } from './messages/message-form/message-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { NgbDatepickerModule, NgbDateParserFormatter, NgbDatepickerI18n, NgbAlertModule, NgbPaginationModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerModule, NgbDateParserFormatter, NgbDatepickerI18n, NgbAlertModule, NgbPaginationModule, NgbModalModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDatePtParserFormatter } from './formatter/ngb-date-pt-parser-formatter';
 import { CommonModule } from '@angular/common';
 import { TurnoPipe } from './pipes/turno.pipe';
@@ -37,6 +37,7 @@ import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
     NgbPaginationModule,
     NgbModalModule,
     TextMaskModule,
+    NgbTooltipModule,
     NgxLoadingModule.forRoot({
       backdropBorderRadius: '3px'
     })
@@ -58,7 +59,8 @@ import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
     SnackbarComponent,
     MessageFormComponent,
     ModalExclusionComponent,
-    NgxLoadingModule
+    NgxLoadingModule,
+    NgbTooltipModule
   ],
   providers: [
     PaginationService,

@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Aluno } from '../../alunos/aluno/aluno.model';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Masks } from '../../shared/formatter/masks';
-import { Telefone, Aluno } from '../../alunos/aluno/aluno.model';
 import { FormValidation } from '../../shared/form-validation';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Telefone } from '../telefone/telefone.model';
 
 @Component({
-  selector: 'app-telefone-modal',
-  templateUrl: './telefone-modal.component.html',
-  styleUrls: ['./telefone-modal.component.scss']
+  selector: 'app-telefone-add-modal',
+  templateUrl: './telefone-add-modal.component.html',
+  styleUrls: ['./telefone-add-modal.component.scss']
 })
-export class TelefoneModalComponent implements OnInit {
+export class TelefoneAddModalComponent implements OnInit {
 
   aluno: Aluno;
   telefoneForm: FormGroup;
@@ -58,4 +59,5 @@ export class TelefoneModalComponent implements OnInit {
   onChangeTipoTelefoneSelect() {
     this.telefoneForm.controls['telefone'].setValue('');
   }
+
 }

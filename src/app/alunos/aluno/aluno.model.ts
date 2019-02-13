@@ -1,4 +1,6 @@
-class Aluno {
+import { Telefone } from "../../telefones/telefone/telefone.model";
+
+export class Aluno {
     id: number;
     nome: string;
     matricula: string;
@@ -9,20 +11,14 @@ class Aluno {
     turno: number;
     alunoBolsista: boolean;
     urlFoto: string;
+    anoLetivo: number;
+
+    idResponsavel: string;
     nomeResponsavel: string;
     cpf: string;
     email: string;
     email2: string;
-    telefones: Telefone[];
+    telefones: Telefone[] = [];
     enviarEmail: boolean;
     enviarMensagem: boolean;
-    anoLetivo: number;
 }
-
-class Telefone {
-    tipo: number;
-    telefone: string;
-    descricao: string;
-}
-
-export { Aluno, Telefone };
