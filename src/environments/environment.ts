@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  api: '/api'
+  api: '/api',
+  urlFotos: 'https://s3-sa-east-1.amazonaws.com/presente3/'
 };
 
 /*

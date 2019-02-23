@@ -27,7 +27,7 @@ export class FormValidation {
         if (error && error.status) {
             this.message = error.error;
         } else if (error && error.status === 500) {
-            this.message == 'Erro inesperado'
+            this.message = 'Erro inesperado';
         }
         this.typeMessage = 'danger';
     }

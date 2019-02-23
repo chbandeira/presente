@@ -66,4 +66,4 @@ class TurmaSearchModalComponent implements OnInit {
 
 }
 
-export { TurmaFormatter, TurmaSearchModalComponent }
+export { TurmaFormatter, TurmaSearchModalComponent };

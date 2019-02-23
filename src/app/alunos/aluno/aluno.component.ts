@@ -14,6 +14,7 @@ import { TurmaSearchModalComponent } from '../../turmas/turma-search-modal/turma
 import { TelefoneAddModalComponent } from '../../telefones/telefone-add-modal/telefone-add-modal.component';
 import { Telefone } from '../../telefones/telefone/telefone.model';
 import { ResponsavelSearchModalComponent } from '../../responsaveis/responsavel-search-modal/responsavel-search-modal.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-aluno',
@@ -28,6 +29,7 @@ export class AlunoComponent implements OnInit, OnDestroy {
   aluno: Aluno;
   alunoErrors: AlunoErrors;
   masks = Masks;
+  base64Image: any;
 
   $aluno: Subscription;
   loading: boolean;
@@ -52,6 +54,7 @@ export class AlunoComponent implements OnInit, OnDestroy {
       this.$aluno = this.alunosService.getAluno(this.aluno.id).pipe(
         finalize(() => {
           this.loading = false;
+          this.loadUrlFoto();
           this.disableResponsavel();
         })
       ).subscribe(a => {
@@ -61,6 +64,7 @@ export class AlunoComponent implements OnInit, OnDestroy {
       });
     } else {
       this.loading = false;
+      this.loadUrlFoto();
     }
   }
 
@@ -88,8 +92,7 @@ export class AlunoComponent implements OnInit, OnDestroy {
       enviarEmail: [this.aluno.enviarEmail],
       telefones: [this.aluno.telefones],
       disabledResponsavel: [false],
-      // TODO enviarMensagem
-      urlFoto: [null]
+      urlFoto: [this.aluno.urlFoto]
     });
   }
 
@@ -103,15 +106,18 @@ export class AlunoComponent implements OnInit, OnDestroy {
     if (this.submitForm.valid) {
       const aluno = this.getAlunoFromForm();
       this.alunosService.save(aluno, this.fileToUpload).pipe(
-        finalize(() => this.loading = false)
+        finalize(() => {
+          this.loading = false;
+          this.loadUrlFoto();
+        })
       ).subscribe(id => {
         if (Number(id)) {
-          this.disableResponsavel();
           this.submitForm.value.dataNascimento = this.dateFormatter.parse(this.aluno.dataNascimento);
           if (!this.aluno.id) {
             this.formValidation.alreadyNew = true;
           }
           this.aluno.id = id;
+          this.disableResponsavel();
         }
         this.formValidation.validate('Aluno salvo com sucesso!');
       }, err => {
@@ -163,16 +169,15 @@ export class AlunoComponent implements OnInit, OnDestroy {
   }
 
   clean() {
+    this.cleanResponsavel();
     this.startForm();
     this.formValidation.reset();
     this.alunoErrors = new AlunoErrors();
+    this.base64Image = null;
   }
 
   newAluno() {
-    this.aluno = new Aluno();
-    this.startForm();
-    this.formValidation.reset();
-    this.alunoErrors = new AlunoErrors();
+    this.clean();
   }
 
   openAddTelefone() {
@@ -198,13 +203,13 @@ export class AlunoComponent implements OnInit, OnDestroy {
     this.submitForm.controls['email2'].setValue('');
     this.submitForm.controls['telefones'].setValue([]);
     this.submitForm.controls['enviarEmail'].setValue('false');
-    this.submitForm.controls['disabledResponsavel'].setValue('');
-
+    
     this.submitForm.controls['nomeResponsavel'].enable();
     this.submitForm.controls['cpf'].enable();
     this.submitForm.controls['email'].enable();
     this.submitForm.controls['email2'].enable();
     this.submitForm.controls['enviarEmail'].enable();
+    this.submitForm.controls['disabledResponsavel'].setValue('');
   }
 
   openSearchResponsavel() {
@@ -213,14 +218,20 @@ export class AlunoComponent implements OnInit, OnDestroy {
   }
 
   disableResponsavel() {
-    if (this.aluno.idResponsavel) {
-      this.submitForm.controls['nomeResponsavel'].disable();
-      this.submitForm.controls['cpf'].disable();
-      this.submitForm.controls['email'].disable();
-      this.submitForm.controls['email2'].disable();
-      this.submitForm.controls['enviarEmail'].disable();
-      this.submitForm.controls['disabledResponsavel'].setValue('true');
-    }
+    this.submitForm.controls['nomeResponsavel'].disable();
+    this.submitForm.controls['cpf'].disable();
+    this.submitForm.controls['email'].disable();
+    this.submitForm.controls['email2'].disable();
+    this.submitForm.controls['enviarEmail'].disable();
+    this.submitForm.controls['disabledResponsavel'].setValue('true');
   }
 
+  loadUrlFoto() {
+    if (this.submitForm.value.matricula) {
+      const imageUrl = `${environment.urlFotos}${this.submitForm.value.matricula}.jpg?${(new Date()).getTime()}`;
+      this.alunosService.getBase64ImageFromURL(imageUrl).subscribe(base64data => {
+        this.base64Image = 'data:image/jpg;base64,' + base64data;
+      });
+    }
+  }
 }

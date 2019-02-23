@@ -73,12 +73,7 @@
               </select>
             </div>
           </div>
-          <!--
-          <div class="form-group">
-            <label for="urlFoto">Foto</label>
-            <input type="file" class="form-control-file" formControlName="urlFoto" id="urlFoto" (change)="handleFileInput($event.target.files)">
-          </div>
-          -->
+
           <div class="form-group">
             <div>Bolsista?</div>
             <div class="form-check form-check-inline">
@@ -93,6 +88,16 @@
               <label class="form-check-label" for="alunoBolsistaNao">Não</label>
             </div>
           </div>
+          
+          <div class="form-group">
+            <label for="urlFoto">Foto</label>
+            <input type="file" class="form-control-file border" formControlName="urlFoto" id="urlFoto" (change)="handleFileInput($event.target.files)">
+          </div>
+
+          <div class="form-group mb-3" *ngIf="base64Image != null">
+            <img [src]="base64Image" class="img-fluid img-thumbnail w-50 h-50">
+          </div>
+          
         </div>
       </div>
     </div>
@@ -167,9 +172,9 @@
             <small class="form-text text-muted">Enviar email no momento do registro do aluno</small>
           </div>
           <div class="form-group">
-            <button type="button" (click)="openAddTelefone()" class="btn btn-sm btn-outline-secondary" [disabled]="submitForm.value.disabledResponsavel"><i
-                class="fas fa-plus"></i> Adicionar
-              telefone</button>
+            <button type="button" (click)="openAddTelefone()" class="btn btn-sm btn-outline-secondary" 
+              [disabled]="submitForm.value.disabledResponsavel"><i class="fas fa-plus"></i> Adicionar telefone
+            </button>
           </div>
           <div class="form-group table-responsive">
             <table class="table table-striped">
