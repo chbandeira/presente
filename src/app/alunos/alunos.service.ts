@@ -43,7 +43,7 @@ export class AlunosService {
     return httpParams;
   }
 
-  save(aluno: Aluno, fileToUpload: File): Observable<number> {
+  save(aluno: Aluno, fileToUpload: File): Observable<Aluno> {
     if (!aluno.cpf || aluno.cpf.trim() === '') {
       aluno.cpf = null;
     }
@@ -58,9 +58,9 @@ export class AlunosService {
     }
 
     if (aluno.id) {
-      return this.http.put<number>(url, formData);
+      return this.http.put<Aluno>(url, formData);
     }
-    return this.http.post<number>(url, formData);
+    return this.http.post<Aluno>(url, formData);
   }
 
   getAluno(id: number): Observable<Aluno> {

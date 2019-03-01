@@ -91,7 +91,14 @@
           
           <div class="form-group">
             <label for="urlFoto">Foto</label>
-            <input type="file" class="form-control-file border" formControlName="urlFoto" id="urlFoto" (change)="handleFileInput($event.target.files)">
+            <div class="input-group">
+              <input type="file" class="border" formControlName="urlFoto" id="urlFoto" (change)="handleFileInput($event.target.files)">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" ngbTooltip="Limpar" (click)="cleanFoto()">
+                  <i class="fas fa-eraser"></i>
+                </button>
+              </div>
+            </div>
           </div>
 
           <div class="form-group mb-3" *ngIf="base64Image != null">
@@ -109,7 +116,7 @@
         <div class="col-md">
 
           <h5>Responsável</h5>
-          <small class="form-text text-muted">Edição de Responsável já existente apenas em Cadastro de Responsável.</small>
+          <small class="form-text text-muted">Edição do Responsável apenas no Cadastro de Responsável.</small>
 
           <div class="form-group">
             <label for="nomeResponsavel">Nome</label>
@@ -207,21 +214,21 @@
 
   <app-message-form [formValidation]="formValidation"></app-message-form>
 
-  <div class="d-flex justify-content-center m-3">
-    <a [routerLink]="[ '/alunos' ]" class="btn-register mr-2"><i class="fas fa-folder-open"></i> Cadastro</a>
+  <div class="d-flex flex-row-reverse justify-content-center m-3">
+    <a [routerLink]="[ '/alunos' ]" class="btn-register ml-2"><i class="fas fa-folder-open"></i> Cadastro</a>
 
     <ng-container *ngIf="formValidation.editMode; then edit; else new"></ng-container>
     <ng-template #edit>
-      <a *ngIf="!formValidation.alreadyNew" class="btn-new mr-2" [routerLink]="[ '/alunos/cadastro' ]"><i
+      <a *ngIf="!formValidation.alreadyNew" class="btn-new ml-2" [routerLink]="[ '/alunos/cadastro' ]"><i
           class="fas fa-plus"></i>
         Novo Aluno</a>
-      <button *ngIf="formValidation.alreadyNew" (click)="newAluno()" class="btn-new mr-2"><i class="fas fa-plus"></i>
+      <button *ngIf="formValidation.alreadyNew" (click)="newAluno()" class="btn-new ml-2"><i class="fas fa-plus"></i>
         Novo Aluno</button>
     </ng-template>
     <ng-template #new>
-      <button type="reset" (click)="clean()" class="btn-clean mr-2"><i class="fas fa-eraser"></i> Limpar</button>
+      <button type="reset" (click)="clean()" class="btn-clean ml-2"><i class="fas fa-eraser"></i> Limpar</button>
     </ng-template>
 
-    <button (click)="save()" class="btn-save"><i class="fas fa-save"></i> Salvar</button>
+    <button (click)="save()" class="btn-save ml-2"><i class="fas fa-save"></i> Salvar</button>
   </div>
 </form>

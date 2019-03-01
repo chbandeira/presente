@@ -21,9 +21,9 @@
       <img [src]="base64Image" class="img-fluid img-thumbnail">
     </div>
 
-    <div class="d-flex justify-content-center m-3">
-      <button type="reset" (click)="clean()" class="btn-clean mr-2"><i class="fas fa-eraser"></i> Limpar</button>
-      <button (click)="registrar()" class="btn btn-primary" [disabled]="loading"><i class="fas fa-check"></i> Registrar {{ title }}</button>
+    <div class="d-flex flex-row-reverse justify-content-center m-3">
+      <button type="reset" (click)="clean()" class="btn-clean ml-2"><i class="fas fa-eraser"></i> Limpar</button>
+      <button (click)="registrar()" class="btn btn-primary ml-2" [disabled]="loading"><i class="fas fa-check"></i> Registrar {{ title }}</button>
     </div>
   </div>
 </form>

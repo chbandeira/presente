@@ -14,7 +14,6 @@ import { TurmaSearchModalComponent } from '../../turmas/turma-search-modal/turma
 import { TelefoneAddModalComponent } from '../../telefones/telefone-add-modal/telefone-add-modal.component';
 import { Telefone } from '../../telefones/telefone/telefone.model';
 import { ResponsavelSearchModalComponent } from '../../responsaveis/responsavel-search-modal/responsavel-search-modal.component';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-aluno',
@@ -92,7 +91,7 @@ export class AlunoComponent implements OnInit, OnDestroy {
       enviarEmail: [this.aluno.enviarEmail],
       telefones: [this.aluno.telefones],
       disabledResponsavel: [false],
-      urlFoto: [this.aluno.urlFoto]
+      urlFoto: ['']
     });
   }
 
@@ -110,15 +109,14 @@ export class AlunoComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.loadUrlFoto();
         })
-      ).subscribe(id => {
-        if (Number(id)) {
-          this.submitForm.value.dataNascimento = this.dateFormatter.parse(this.aluno.dataNascimento);
-          if (!this.aluno.id) {
-            this.formValidation.alreadyNew = true;
-          }
-          this.aluno.id = id;
-          this.disableResponsavel();
+      ).subscribe(a => {
+        this.submitForm.value.dataNascimento = this.dateFormatter.parse(this.aluno.dataNascimento);
+        if (!this.aluno.id) {
+          this.formValidation.alreadyNew = true;
         }
+        this.aluno.id = a.id;
+        this.aluno.urlFoto = a.urlFoto;
+        this.disableResponsavel();
         this.formValidation.validate('Aluno salvo com sucesso!');
       }, err => {
         this.formValidation.invalidate('Erro ao salvar Aluno', err.error);
@@ -170,6 +168,7 @@ export class AlunoComponent implements OnInit, OnDestroy {
 
   clean() {
     this.cleanResponsavel();
+    this.cleanFoto();
     this.startForm();
     this.formValidation.reset();
     this.alunoErrors = new AlunoErrors();
@@ -227,11 +226,17 @@ export class AlunoComponent implements OnInit, OnDestroy {
   }
 
   loadUrlFoto() {
-    if (this.submitForm.value.matricula) {
-      const imageUrl = `${environment.urlFotos}${this.submitForm.value.matricula}.jpg?${(new Date()).getTime()}`;
+    if (this.aluno.urlFoto) {
+      const imageUrl = `${this.aluno.urlFoto}?${(new Date()).getTime()}`;
       this.alunosService.getBase64ImageFromURL(imageUrl).subscribe(base64data => {
         this.base64Image = 'data:image/jpg;base64,' + base64data;
       });
     }
+  }
+
+  cleanFoto() {
+    this.fileToUpload = null;
+    this.base64Image = null;
+    this.submitForm.controls['urlFoto'].setValue('');
   }
 }

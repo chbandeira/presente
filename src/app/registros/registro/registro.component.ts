@@ -22,7 +22,7 @@ export class RegistroComponent implements OnInit, DoCheck {
   submitForm: FormGroup;
   loading: boolean;
   base64Image: any;
-  matricula: string;
+  registro: Registro;
 
   constructor(
     private fb: FormBuilder,
@@ -46,7 +46,7 @@ export class RegistroComponent implements OnInit, DoCheck {
     if (this.tipoRegistro !== this.route.snapshot.params['tipoRegistro']) {
       this.tipoRegistro = this.route.snapshot.params['tipoRegistro'];
       this.startForm();
-      this.formValidation.reset();
+      this.clean();
     }
     this.title = this.route.snapshot.params['tipoRegistro'] === RegistroEnum[RegistroEnum.saida] ? 'Saída' : 'Entrada';
   }
@@ -59,7 +59,6 @@ export class RegistroComponent implements OnInit, DoCheck {
       this.base64Image = null;
       return;
     }
-    this.matricula = this.submitForm.value.matricula;
     const registro = new Registro(
       RegistroEnum[this.route.snapshot.params['tipoRegistro']],
       this.submitForm.value.matricula);
@@ -70,6 +69,7 @@ export class RegistroComponent implements OnInit, DoCheck {
       })
     ).subscribe((retorno: Registro) => {
       this.formValidation.validate(retorno.messageRetorno);
+      this.registro = retorno;
       this.startForm();
     }, err => {
       this.formValidation.invalidate(err.error.message);
@@ -83,8 +83,8 @@ export class RegistroComponent implements OnInit, DoCheck {
   }
 
   loadUrlFoto() {
-    if (this.matricula) {
-      const imageUrl = `${environment.urlFotos}${this.matricula}.jpg?${(new Date()).getTime()}`;
+    if (this.registro && this.registro.urlFoto) {
+      const imageUrl = `${this.registro.urlFoto}?${(new Date()).getTime()}`;
       this.alunosService.getBase64ImageFromURL(imageUrl).subscribe(base64data => {
         this.base64Image = 'data:image/jpg;base64,' + base64data;
       });
