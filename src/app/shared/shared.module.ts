@@ -15,7 +15,7 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { ModalExclusionComponent } from './modals/modal-exclusion/modal-exclusion.component';
 import { NgbDatepickerPt } from './formatter/ngb-datapicker-pt';
 import { TipoTelefonePipe } from './pipes/tipo-telefone.pipe';
-import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
+import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
   declarations: [

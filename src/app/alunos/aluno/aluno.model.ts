@@ -1,4 +1,4 @@
-import { Telefone } from "../../telefones/telefone/telefone.model";
+import { Telefone } from '../../telefones/telefone/telefone.model';
 
 export class Aluno {
     id: number;

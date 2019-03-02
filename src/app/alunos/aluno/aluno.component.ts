@@ -28,7 +28,8 @@ export class AlunoComponent implements OnInit, OnDestroy {
   aluno: Aluno;
   alunoErrors: AlunoErrors;
   masks = Masks;
-  base64Image: any;
+  alunoImage: any;
+  defaultImage = './assets/img/avatar-blank.png';
 
   $aluno: Subscription;
   loading: boolean;
@@ -53,13 +54,14 @@ export class AlunoComponent implements OnInit, OnDestroy {
       this.$aluno = this.alunosService.getAluno(this.aluno.id).pipe(
         finalize(() => {
           this.loading = false;
-          this.loadUrlFoto();
-          this.disableResponsavel();
         })
-      ).subscribe(a => {
-        this.aluno = a;
-        this.disableResponsavel();
-        this.startForm();
+        ).subscribe(a => {
+          this.aluno = a;
+          if (this.aluno.nomeResponsavel) {
+            this.disableResponsavel();
+          }
+          this.startForm();
+          this.loadUrlFoto();
       });
     } else {
       this.loading = false;
@@ -116,7 +118,9 @@ export class AlunoComponent implements OnInit, OnDestroy {
         }
         this.aluno.id = a.id;
         this.aluno.urlFoto = a.urlFoto;
-        this.disableResponsavel();
+        if (this.submitForm.value.nomeResponsavel) {
+          this.disableResponsavel();
+        }
         this.formValidation.validate('Aluno salvo com sucesso!');
       }, err => {
         this.formValidation.invalidate('Erro ao salvar Aluno', err.error);
@@ -158,12 +162,17 @@ export class AlunoComponent implements OnInit, OnDestroy {
   private getAlunoFromForm(): Aluno {
     const aluno: Aluno = this.submitForm.value;
     aluno.dataNascimento = this.dateFormatter.format(this.submitForm.value.dataNascimento);
-    aluno.id = this.aluno.id; 
+    aluno.id = this.aluno.id;
     return aluno;
   }
 
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
+    if (this.fileToUpload) {
+      const reader = new FileReader();
+      reader.onload = e => this.alunoImage = reader.result;
+      reader.readAsDataURL(this.fileToUpload);
+    }
   }
 
   clean() {
@@ -172,7 +181,7 @@ export class AlunoComponent implements OnInit, OnDestroy {
     this.startForm();
     this.formValidation.reset();
     this.alunoErrors = new AlunoErrors();
-    this.base64Image = null;
+    this.alunoImage = null;
   }
 
   newAluno() {
@@ -202,7 +211,6 @@ export class AlunoComponent implements OnInit, OnDestroy {
     this.submitForm.controls['email2'].setValue('');
     this.submitForm.controls['telefones'].setValue([]);
     this.submitForm.controls['enviarEmail'].setValue('false');
-    
     this.submitForm.controls['nomeResponsavel'].enable();
     this.submitForm.controls['cpf'].enable();
     this.submitForm.controls['email'].enable();
@@ -227,16 +235,13 @@ export class AlunoComponent implements OnInit, OnDestroy {
 
   loadUrlFoto() {
     if (this.aluno.urlFoto) {
-      const imageUrl = `${this.aluno.urlFoto}?${(new Date()).getTime()}`;
-      this.alunosService.getBase64ImageFromURL(imageUrl).subscribe(base64data => {
-        this.base64Image = 'data:image/jpg;base64,' + base64data;
-      });
+      this.alunosService.getBase64ImageFromURL(this.aluno.urlFoto).subscribe(urlImg => this.alunoImage = urlImg);
     }
   }
 
   cleanFoto() {
     this.fileToUpload = null;
-    this.base64Image = null;
+    this.alunoImage = null;
     this.submitForm.controls['urlFoto'].setValue('');
   }
 }

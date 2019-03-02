@@ -70,4 +70,4 @@ class ResponsavelSearchModalComponent implements OnInit {
   }
 }
 
-export { ResponsavelSearchModalComponent, ResponsavelFormatter }
+export { ResponsavelSearchModalComponent, ResponsavelFormatter };

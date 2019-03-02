@@ -1,5 +1,4 @@
 import { AlunosService } from './../../alunos/alunos.service';
-import { environment } from './../../../environments/environment';
 import { Component, OnInit, DoCheck } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -21,7 +20,7 @@ export class RegistroComponent implements OnInit, DoCheck {
   title = 'Entrada';
   submitForm: FormGroup;
   loading: boolean;
-  base64Image: any;
+  alunoImage: any;
   registro: Registro;
 
   constructor(
@@ -52,11 +51,12 @@ export class RegistroComponent implements OnInit, DoCheck {
   }
 
   registrar() {
+    this.alunoImage = null;
+    this.registro = null;
     this.loading = true;
     if (!this.submitForm.value.matricula) {
       this.formValidation.invalidate('Informe a matrícula para registro');
       this.loading = false;
-      this.base64Image = null;
       return;
     }
     const registro = new Registro(
@@ -79,15 +79,12 @@ export class RegistroComponent implements OnInit, DoCheck {
   clean() {
     this.formValidation.reset();
     this.loading = false;
-    this.base64Image = null;
+    this.alunoImage = null;
   }
 
   loadUrlFoto() {
     if (this.registro && this.registro.urlFoto) {
-      const imageUrl = `${this.registro.urlFoto}?${(new Date()).getTime()}`;
-      this.alunosService.getBase64ImageFromURL(imageUrl).subscribe(base64data => {
-        this.base64Image = 'data:image/jpg;base64,' + base64data;
-      });
+      this.alunosService.getBase64ImageFromURL(this.registro.urlFoto).subscribe(urlImg => this.alunoImage = urlImg);
     }
   }
 }

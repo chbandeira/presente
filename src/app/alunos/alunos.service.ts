@@ -74,11 +74,12 @@ export class AlunosService {
   /**
    * https://stackblitz.com/edit/get-img-from-url-observable-angular
    */
-  getBase64ImageFromURL(url: string): Observable<any> {
+  getBase64ImageFromURL(imageUrl: string): Observable<any> {
+    const src = `${imageUrl}?${(new Date()).getTime()}`;
     return Observable.create((observer: Observer<string>) => {
-      let img = new Image();
+      const img = new Image();
       img.crossOrigin = 'Anonymous';
-      img.src = url;  img.src = url;
+      img.src = src;
       if (!img.complete) {
         img.onload = () => {
           observer.next(this.getBase64Image(img));
@@ -95,12 +96,12 @@ export class AlunosService {
   }
 
   getBase64Image(img: HTMLImageElement): string {
-    var canvas = document.createElement("canvas");
+    const canvas = document.createElement('canvas');
     canvas.width = img.width;
     canvas.height = img.height;
-    var ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0);
-    var dataURL = canvas.toDataURL("image/jpg");
-    return dataURL.replace(/^data:image\/(jpg|png);base64,/, "");
+    const dataURL = canvas.toDataURL('image/jpg');
+    return 'data:image/jpg;base64,' + dataURL.replace(/^data:image\/(jpg|png);base64,/, '');
   }
 }

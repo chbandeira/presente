@@ -101,8 +101,8 @@
             </div>
           </div>
 
-          <div class="form-group mb-3" *ngIf="base64Image != null">
-            <img [src]="base64Image" class="img-fluid img-thumbnail w-50 h-50">
+          <div class="form-group mb-3">
+            <img [src]="alunoImage || defaultImage" class="img-fluid img-thumbnail w-50 h-50">
           </div>
           
         </div>
